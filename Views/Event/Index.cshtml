@@ -1,0 +1,69 @@
+@model IEnumerable<SmartEventSystem.Models.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Explore Events</h1>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form asp-controller="Event" asp-action="Index" method="get" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="searchString" class="form-control" placeholder="Search by name or venue..." value="@Context.Request.Query["searchString"]">
+                </div>
+                <div class="col-md-3">
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        @if (ViewBag.Categories != null)
+                        {
+                            foreach (var cat in ViewBag.Categories)
+                            {
+                                <option value="@cat" selected="@(Context.Request.Query["category"] == cat ? "selected" : null)">@cat</option>
+                            }
+                        }
+                    </select>
+                </div>
+                 <div class="col-md-2">
+                    <input type="number" name="minPrice" class="form-control" placeholder="Min Price" value="@Context.Request.Query["minPrice"]">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" value="@Context.Request.Query["maxPrice"]">
+                </div>
+                <div class="col-md-1 d-grid">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <span class="badge bg-info text-dark mb-2">@item.Category</span>
+                            <p class="card-text">
+                                <strong>Date:</strong> @item.EventDate.ToShortDateString()<br />
+                                <strong>Venue:</strong> @item.Venue<br />
+                                <strong>Price:</strong> @item.Price.ToString("C")
+                            </p>
+                            <a asp-action="Details" asp-route-id="@item.EventId" class="btn btn-outline-primary w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center">
+                <p class="text-muted">No events found matching your criteria.</p>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,38 @@
+@model SmartEventSystem.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Confirmation";
+}
+
+<div class="container mt-5 text-center">
+    <div class="alert alert-success display-4">
+        Booking Confirmed!
+    </div>
+    
+    <div class="card shadow mt-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white">
+            <h3>Booking Details</h3>
+        </div>
+        <div class="card-body text-start">
+            <dl class="row">
+                <dt class="col-sm-4">Booking ID</dt>
+                <dd class="col-sm-8">#@Model.BookingId</dd>
+
+                <dt class="col-sm-4">Event</dt>
+                <dd class="col-sm-8">@Model.Event.Name</dd>
+                
+                <dt class="col-sm-4">Date</dt>
+                <dd class="col-sm-8">@Model.Event.EventDate.ToShortDateString() @Model.Event.EventDate.ToShortTimeString()</dd>
+
+                <dt class="col-sm-4">Seats</dt>
+                <dd class="col-sm-8">@Model.Quantity (@Model.SeatType)</dd>
+
+                <dt class="col-sm-4">Total Paid</dt>
+                <dd class="col-sm-8 fw-bold">@Model.TotalAmount.ToString("C")</dd>
+            </dl>
+        </div>
+        <div class="card-footer">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</div>

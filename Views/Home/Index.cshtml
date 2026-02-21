@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SmartEventSystem.Models.Event>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Metropolitan Cultural Council</h1>
+    <p>Discover and book tickets for the best cultural events in the city.</p>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Upcoming Events</h2>
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@item.Category</h6>
+                            <p class="card-text">
+                                <strong>Date:</strong> @item.EventDate.ToShortDateString()<br/>
+                                <strong>Venue:</strong> @item.Venue
+                            </p>
+                            <p class="card-text text-truncate">@item.Description</p>
+                            <a asp-controller="Event" asp-action="Details" asp-route-id="@item.EventId" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center">
+                <p class="text-muted">No upcoming events at the moment.</p>
+            </div>
+        }
+    </div>
+    <div class="text-center mt-3">
+        <a asp-controller="Event" asp-action="Index" class="btn btn-outline-secondary">Browse All Events</a>
+    </div>
+</div>
